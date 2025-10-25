@@ -1,0 +1,34 @@
+CREATE TABLE anemia_data (
+    Gender VARCHAR(10),
+    Hemoglobin FLOAT,
+    MCH FLOAT,
+    MCHC FLOAT,
+    MCV FLOAT,
+    Result FLOAT
+);
+
+SELECT Gender, COUNT(*) AS PatientCount, AVG(Hemoglobin) AS AvgHemoglobin
+FROM anemia_data
+GROUP BY Gender;
+
+SELECT *
+FROM anemia_data
+WHERE Hemoglobin < 13;
+
+SELECT Gender,
+    SUM(CASE WHEN Hemoglobin < 13 THEN 1 ELSE 0 END) AS Low_Hemoglobin_Count,
+    COUNT(*) AS Total_Patients,
+    100.0 * SUM(CASE WHEN Hemoglobin < 13 THEN 1 ELSE 0 END) / COUNT(*) AS Percent_Anemic
+FROM anemia_data
+GROUP BY Gender;
+
+SELECT Gender,
+    AVG(MCH) AS Avg_MCH,
+    AVG(MCHC) AS Avg_MCHC,
+    AVG(MCV) AS Avg_MCV
+FROM anemia_data
+GROUP BY Gender;
+
+SELECT *
+FROM anemia_data
+WHERE Hemoglobin < 8 OR Hemoglobin > 18;
